@@ -28,7 +28,8 @@
         "check": "svelte-check --tsconfig ./tsconfig.json",
         "check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
         "lint": "eslint .",
-        "lint:fix": "eslint . --fix"
+        "lint:fix": "eslint . --fix",
+        "test:e2e": "npm --prefix e2e ci && npm --prefix e2e run test"
     },
     "files": [
         "dist",

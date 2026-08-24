@@ -10,6 +10,8 @@ const gitignorePath = path.resolve(import.meta.dirname, ".gitignore");
 
 export default defineConfig(
     includeIgnoreFile(gitignorePath),
+    // The e2e app is a separate nested npm project with its own toolchain.
+    { ignores: ["e2e/**"] },
     js.configs.recommended,
     ts.configs.recommended,
     svelte.configs.recommended,

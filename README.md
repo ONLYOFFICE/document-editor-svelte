@@ -177,6 +177,19 @@ npm run build
 ```
 npm pack
 ```
+### Run the end-to-end tests:
+The `e2e` directory is a separate Svelte application that installs the packed component and drives
+it with [Playwright](https://playwright.dev/). Browsers have to be installed once:
+```
+npm --prefix e2e exec playwright install chromium
+```
+```
+npm run test:e2e
+```
+To test a version published on npm instead of the local sources, set `E2E_LIB_VERSION`:
+```
+E2E_LIB_VERSION=0.1.0 npm run test:e2e
+```
 
 ## Feedback and support
 
