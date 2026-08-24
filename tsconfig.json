@@ -1,0 +1,32 @@
+{
+    "compilerOptions": {
+        "target": "ES2022",
+        "lib": [
+            "ES2022",
+            "DOM",
+            "DOM.Iterable"
+        ],
+        "module": "NodeNext",
+        "moduleResolution": "NodeNext",
+        "types": [
+            "node"
+        ],
+        "allowJs": true,
+        "checkJs": true,
+        "strict": true,
+        "isolatedModules": true,
+        "verbatimModuleSyntax": true,
+        "forceConsistentCasingInFileNames": true,
+        "resolveJsonModule": true,
+        "skipLibCheck": true,
+        "sourceMap": true,
+        "noEmit": true
+    },
+    "include": [
+        "src/**/*.ts",
+        "src/**/*.js",
+        "src/**/*.svelte",
+        "*.config.js",
+        "*.config.ts"
+    ]
+}

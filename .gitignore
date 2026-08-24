@@ -1,0 +1,20 @@
+node_modules
+
+# Output
+/dist
+
+# svelte-package scratch directory
+/.svelte-kit
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Env
+.env
+.env.*
+!.env.example
+!.env.test
+
+# npm pack output
+*.tgz
