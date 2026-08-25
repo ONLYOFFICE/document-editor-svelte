@@ -1,6 +1,6 @@
 {
   "name": "@onlyoffice/document-editor-svelte",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Svelte component for ONLYOFFICE Document Server",
   "license": "Apache-2.0",
   "bugs": {
