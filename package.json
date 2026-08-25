@@ -1,70 +1,70 @@
 {
-    "name": "@onlyoffice/document-editor-svelte",
-    "version": "0.1.0",
-    "description": "Svelte component for ONLYOFFICE Document Server",
-    "license": "Apache-2.0",
-    "bugs": {
-        "url": "https://github.com/ONLYOFFICE/document-editor-svelte/issues",
-        "email": "support@onlyoffice.com"
-    },
-    "homepage": "https://www.onlyoffice.com",
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/ONLYOFFICE/document-editor-svelte.git"
-    },
-    "author": "Ascensio System SIA <integration@onlyoffice.com> (https://www.onlyoffice.com)",
-    "maintainers": [
-        "Ascensio System SIA <integration@onlyoffice.com> (https://www.onlyoffice.com)"
-    ],
-    "keywords": [
-        "onlyoffice",
-        "svelte",
-        "document-editor",
-        "docs"
-    ],
-    "scripts": {
-        "build": "svelte-package",
-        "prepack": "svelte-package && publint",
-        "check": "svelte-check --tsconfig ./tsconfig.json",
-        "check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
-        "lint": "eslint .",
-        "lint:fix": "eslint . --fix",
-        "test:e2e": "npm --prefix e2e ci && npm --prefix e2e run test"
-    },
-    "files": [
-        "dist",
-        "!dist/**/*.test.*",
-        "!dist/**/*.spec.*"
-    ],
-    "sideEffects": false,
-    "svelte": "./dist/index.js",
-    "types": "./dist/index.d.ts",
-    "type": "module",
-    "exports": {
-        ".": {
-            "types": "./dist/index.d.ts",
-            "svelte": "./dist/index.js"
-        }
-    },
-    "peerDependencies": {
-        "@onlyoffice/doceditor-types": ">=9.3.1",
-        "svelte": "^4.0.0 || ^5.0.0"
-    },
-    "devDependencies": {
-        "@eslint/js": "^10.0.1",
-        "@onlyoffice/doceditor-types": "^9.4.1",
-        "@stylistic/eslint-plugin": "^5.10.0",
-        "@sveltejs/package": "^2.5.8",
-        "@sveltejs/vite-plugin-svelte": "^7.1.2",
-        "@types/node": "^24",
-        "eslint": "^10.4.1",
-        "eslint-plugin-svelte": "^3.19.0",
-        "globals": "^17.6.0",
-        "publint": "^0.3.21",
-        "svelte": "^5.56.1",
-        "svelte-check": "^4.6.0",
-        "typescript": "^6.0.3",
-        "typescript-eslint": "^8.60.1",
-        "vite": "^8.0.16"
+  "name": "@onlyoffice/document-editor-svelte",
+  "version": "0.1.0",
+  "description": "Svelte component for ONLYOFFICE Document Server",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/ONLYOFFICE/document-editor-svelte/issues",
+    "email": "support@onlyoffice.com"
+  },
+  "homepage": "https://www.onlyoffice.com",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ONLYOFFICE/document-editor-svelte.git"
+  },
+  "author": "Ascensio System SIA <integration@onlyoffice.com> (https://www.onlyoffice.com)",
+  "maintainers": [
+    "Ascensio System SIA <integration@onlyoffice.com> (https://www.onlyoffice.com)"
+  ],
+  "keywords": [
+    "onlyoffice",
+    "svelte",
+    "document-editor",
+    "docs"
+  ],
+  "scripts": {
+    "build": "svelte-package",
+    "prepack": "svelte-package && publint",
+    "check": "svelte-check --tsconfig ./tsconfig.json",
+    "check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "test:e2e": "npm --prefix e2e ci && npm --prefix e2e run test"
+  },
+  "files": [
+    "dist",
+    "!dist/**/*.test.*",
+    "!dist/**/*.spec.*"
+  ],
+  "sideEffects": false,
+  "svelte": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "svelte": "./dist/index.js"
     }
+  },
+  "peerDependencies": {
+    "@onlyoffice/doceditor-types": ">=9.3.1",
+    "svelte": "^4.0.0 || ^5.0.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@onlyoffice/doceditor-types": "^9.4.1",
+    "@stylistic/eslint-plugin": "^5.10.0",
+    "@sveltejs/package": "^2.5.8",
+    "@sveltejs/vite-plugin-svelte": "^7.1.2",
+    "@types/node": "^24",
+    "eslint": "^10.4.1",
+    "eslint-plugin-svelte": "^3.19.0",
+    "globals": "^17.6.0",
+    "publint": "^0.3.21",
+    "svelte": "^5.56.1",
+    "svelte-check": "^4.6.0",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.60.1",
+    "vite": "^8.0.16"
+  }
 }
