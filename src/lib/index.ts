@@ -15,4 +15,9 @@
  */
 
 export { default as DocumentEditor } from "./DocumentEditor.svelte";
-export type { DocumentEditorProps, LoadComponentErrorHandler } from "./types.js";
+export { default as DocumentEditorPreload } from "./DocumentEditorPreload.svelte";
+export type {
+    DocumentEditorPreloadProps,
+    DocumentEditorProps,
+    LoadComponentErrorHandler
+} from "./types.js";
