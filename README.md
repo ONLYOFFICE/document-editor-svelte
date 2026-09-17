@@ -140,7 +140,7 @@ The application will be deployed on the web server (*http://localhost:3000* by d
 
 The editor callbacks (`onDocumentReady`, `onError`, `onRequestSaveAs` and the rest) are passed inside `config.events`, exactly as described in the [Config API](https://api.onlyoffice.com/docs/docs-api/usage-api/config/events/).
 
-The component renders a single `<div id={id}>` placeholder that Document Server fills with its iframe, so give that element a size — either through `config.height` and `config.width` or with your own CSS.
+The component renders the `<div id={id}>` placeholder that Document Server fills with its iframe inside a wrapper element of its own. Document Server *replaces* the placeholder, so the wrapper is what keeps the component removable by Svelte and the editor reusable after the component is destroyed. The wrapper is styled with `display: contents` and creates no box, so the editor is laid out by the element you place the component in and sizing it is unchanged — either through `config.height` and `config.width` or with your own CSS.
 
 Changing `documentServerUrl` or `config` destroys the current editor and creates a new one.
 

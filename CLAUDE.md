@@ -38,6 +38,14 @@ npx playwright test tests/document-editor.e2e.spec.ts -g "reports error code -2"
 npx playwright test --headed --debug
 ```
 
+The tests never touch a real Document Server: they stub `window.DocsAPI` with
+`page.addInitScript`, or intercept `**/web-apps/apps/api/documents/api.js**` with `page.route` to
+serve a fake or abort it. `e2e/tests/fake-docs-api.ts` holds the shared pattern and the fake
+source — it reproduces both DOM swaps the real api.js makes and records the opened
+`document.key`s in `window.__e2eOpenedKeys__`. `e2e/src/App.svelte` exposes `toggle-editor` and
+`change-key` buttons so the lifecycle specs can destroy, recreate and reconfigure the editor;
+holding the api.js response back covers what happens while the script is still on its way.
+
 `e2e/scripts/setup.mjs` runs before Playwright: it builds and `npm pack`s the library, then
 installs the tarball into `e2e/node_modules`. So the e2e suite always exercises the *published
 artifact*, not `src/`. Skipping setup (`npx playwright test` alone) reuses whatever tarball was
@@ -59,6 +67,15 @@ them consistent:
   `utils/loadScript.ts` deduplicates via a `loading` attribute and a 500 ms polling interval,
   because concurrent mounts can race on the same tag.
 
+**DOM ownership.** The component renders `<div style="display: contents"><div {id}></div></div>`.
+DocsAPI *replaces* the `#id` placeholder with its iframe and puts a fresh placeholder back on
+`destroyEditor()`, so the placeholder must not be a node Svelte owns: Svelte detaches its own
+nodes *before* `onDestroy` runs, and `destroyEditor()` would then work on a parentless iframe,
+throw, and leave the stale entry in `window.DocEditor.instances[id]` — after which the next mount
+is skipped with "Instance already exists" and the editor never comes back. The wrapper is the only
+node Svelte removes, both swaps happen inside it, and `display: contents` keeps it out of layout.
+Do not flatten it back to a single `<div {id}>`.
+
 **`DocumentEditorPreload`** (`src/lib/DocumentEditorPreload.svelte`) shares nothing with the
 editor component: no `onMount`, no `loadScript`, no instance registry. It renders a hidden
 `<iframe>` pointing at `${documentServerUrl}web-apps/apps/api/documents/preload.html` (adding the
@@ -66,7 +83,7 @@ trailing slash when the url lacks one) and nothing else. The preload page exists
 Docs 9.0; older servers answer it with a 404, which is harmless. Keep the component free of
 `DocsAPI` knowledge — mounting it next to `DocumentEditor` is pointless, it is meant for pages
 shown *before* the editor. Its e2e coverage is a page of its own (`e2e/preload.html` →
-`e2e/src/PreloadApp.svelte`), because the editor page mounts `DocumentEditor` unconditionally.
+`e2e/src/PreloadApp.svelte`), because the editor page always has a `DocumentEditor` in play.
 
 **Reload semantics.** `documentServerUrl` and `config` are the "important props": a change
 destroys the editor and creates a new one. The comparison is `JSON.stringify([documentServerUrl,
