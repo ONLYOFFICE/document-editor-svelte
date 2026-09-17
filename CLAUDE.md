@@ -4,10 +4,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-A publishable npm library (`@onlyoffice/document-editor-svelte`) exposing a single Svelte
-component that mounts the ONLYOFFICE Document Server editor. It is **not** an application:
-there is no dev server and no `npm run dev` at the repo root. The only way to see the
-component actually running is the `e2e/` app.
+A publishable npm library (`@onlyoffice/document-editor-svelte`) exposing two Svelte
+components: `DocumentEditor` mounts the ONLYOFFICE Document Server editor, `DocumentEditorPreload`
+only warms the browser cache. It is **not** an application: there is no dev server and no
+`npm run dev` at the repo root. The only way to see the components actually running is the
+`e2e/` app.
 
 ## Commands
 
@@ -58,6 +59,15 @@ them consistent:
   `utils/loadScript.ts` deduplicates via a `loading` attribute and a 500 ms polling interval,
   because concurrent mounts can race on the same tag.
 
+**`DocumentEditorPreload`** (`src/lib/DocumentEditorPreload.svelte`) shares nothing with the
+editor component: no `onMount`, no `loadScript`, no instance registry. It renders a hidden
+`<iframe>` pointing at `${documentServerUrl}web-apps/apps/api/documents/preload.html` (adding the
+trailing slash when the url lacks one) and nothing else. The preload page exists since ONLYOFFICE
+Docs 9.0; older servers answer it with a 404, which is harmless. Keep the component free of
+`DocsAPI` knowledge — mounting it next to `DocumentEditor` is pointless, it is meant for pages
+shown *before* the editor. Its e2e coverage is a page of its own (`e2e/preload.html` →
+`e2e/src/PreloadApp.svelte`), because the editor page mounts `DocumentEditor` unconditionally.
+
 **Reload semantics.** `documentServerUrl` and `config` are the "important props": a change
 destroys the editor and creates a new one. The comparison is `JSON.stringify([documentServerUrl,
 config])`, which deliberately drops `config.events` — swapping a callback identity (common when
@@ -85,8 +95,9 @@ Errors are numeric and part of the public contract (`onLoadComponentError`): `-1
   has no Vite to transpile the TypeScript out of the component for publishing.
 - `@onlyoffice/doceditor-types` is a peer dependency; `Config` and `DocEditor` types come from
   there, and the `Window` augmentation lives in `src/lib/types.ts`.
-- Public prop or error-code changes need matching updates in the README's API table and in
-  `e2e/src/App.svelte`.
+- Public prop or error-code changes need matching updates in the README (the API table for
+  `DocumentEditor`, the "Preloading the editor" table for `DocumentEditorPreload`) and in the
+  matching e2e app — `e2e/src/App.svelte` or `e2e/src/PreloadApp.svelte`.
 - `dist/` and `.svelte-kit/` are build output — gitignored, never edit.
 
 ## Release flow
