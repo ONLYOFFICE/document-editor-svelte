@@ -151,6 +151,32 @@ Type definitions for the editor configuration come from [@onlyoffice/doceditor-t
 npm install --save @onlyoffice/doceditor-types
 ```
 
+## Preloading the editor
+
+Starting from ONLYOFFICE Docs 9.0, the editor static assets (HTML, CSS, JS, fonts) can be cached before a document is opened, which makes the first opening faster. [Preload](https://api.onlyoffice.com/docs/docs-api/get-started/configuration/preload/)
+
+Place the `DocumentEditorPreload` component on a page where the editor itself is not shown yet: a file list, a login screen, an application layout.
+
+```
+<script>
+    import { DocumentEditorPreload } from "@onlyoffice/document-editor-svelte";
+</script>
+
+<DocumentEditorPreload documentServerUrl="http://documentserver/" />
+```
+
+The component renders a hidden iframe with the preload page of ONLYOFFICE Docs and does nothing else. Rendering it next to `DocumentEditor` brings no benefit, because `DocumentEditor` requests the same assets as soon as it is mounted.
+
+### Props
+| Name | Type | Default | Required | Description |
+| ------------- | ------------- | ------------- | ------------- | ------------- |
+| `documentServerUrl` | string | null | yes | Address of ONLYOFFICE Document Server. |
+
+**Please note**:
+* the preload page appeared in ONLYOFFICE Docs 9.0, earlier versions answer the request for it with the 404 error: it breaks nothing, but is visible in the browser network log;
+* one component per application is enough;
+* do not replace it with `<link rel="prefetch">`: the editor assets are loaded within the iframe context, so prefetch will not cache them.
+
 ## Development
 
 ### Clone project from the GitHub repository:
