@@ -23,11 +23,28 @@
     const onLoadComponentError = (errorCode: number, errorDescription: string) => {
         (window.__e2eErrors__ ??= []).push({ errorCode, errorDescription });
     };
+
+    let mounted = $state(true);
+    let documentKey = $state(config.document!.key!);
+
+    const editorConfig = $derived<Config>({
+        ...config,
+        document: { ...config.document!, key: documentKey }
+    });
 </script>
 
-<DocumentEditor
-    id="e2e-editor"
-    documentServerUrl="http://e2e-document-server.test/"
-    {config}
-    {onLoadComponentError}
-/>
+<button data-testid="toggle-editor" onclick={() => (mounted = !mounted)}>
+    {mounted ? "unmount" : "mount"}
+</button>
+<button data-testid="change-key" onclick={() => (documentKey = "e2e-changed-key")}>
+    change key
+</button>
+
+{#if mounted}
+    <DocumentEditor
+        id="e2e-editor"
+        documentServerUrl="http://e2e-document-server.test/"
+        config={editorConfig}
+        {onLoadComponentError}
+    />
+{/if}

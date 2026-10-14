@@ -151,4 +151,6 @@
     }
 </script>
 
-<div {id}></div>
+<div style="display: contents">
+    <div {id}></div>
+</div>
