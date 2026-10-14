@@ -59,3 +59,8 @@ export type DocumentEditorProps = {
      */
     onLoadComponentError?: LoadComponentErrorHandler;
 };
+
+export type DocumentEditorPreloadProps = {
+    /** Address of ONLYOFFICE Document Server, for example `https://documentserver/`. */
+    documentServerUrl: string;
+};

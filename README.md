@@ -140,7 +140,7 @@ The application will be deployed on the web server (*http://localhost:3000* by d
 
 The editor callbacks (`onDocumentReady`, `onError`, `onRequestSaveAs` and the rest) are passed inside `config.events`, exactly as described in the [Config API](https://api.onlyoffice.com/docs/docs-api/usage-api/config/events/).
 
-The component renders a single `<div id={id}>` placeholder that Document Server fills with its iframe, so give that element a size — either through `config.height` and `config.width` or with your own CSS.
+The component renders the `<div id={id}>` placeholder that Document Server fills with its iframe inside a wrapper element of its own. Document Server *replaces* the placeholder, so the wrapper is what keeps the component removable by Svelte and the editor reusable after the component is destroyed. The wrapper is styled with `display: contents` and creates no box, so the editor is laid out by the element you place the component in and sizing it is unchanged — either through `config.height` and `config.width` or with your own CSS.
 
 Changing `documentServerUrl` or `config` destroys the current editor and creates a new one.
 
@@ -150,6 +150,32 @@ Type definitions for the editor configuration come from [@onlyoffice/doceditor-t
 ```
 npm install --save @onlyoffice/doceditor-types
 ```
+
+## Preloading the editor
+
+Starting from ONLYOFFICE Docs 9.0, the editor static assets (HTML, CSS, JS, fonts) can be cached before a document is opened, which makes the first opening faster. [Preload](https://api.onlyoffice.com/docs/docs-api/get-started/configuration/preload/)
+
+Place the `DocumentEditorPreload` component on a page where the editor itself is not shown yet: a file list, a login screen, an application layout.
+
+```
+<script>
+    import { DocumentEditorPreload } from "@onlyoffice/document-editor-svelte";
+</script>
+
+<DocumentEditorPreload documentServerUrl="http://documentserver/" />
+```
+
+The component renders a hidden iframe with the preload page of ONLYOFFICE Docs and does nothing else. Rendering it next to `DocumentEditor` brings no benefit, because `DocumentEditor` requests the same assets as soon as it is mounted.
+
+### Props
+| Name | Type | Default | Required | Description |
+| ------------- | ------------- | ------------- | ------------- | ------------- |
+| `documentServerUrl` | string | null | yes | Address of ONLYOFFICE Document Server. |
+
+**Please note**:
+* the preload page appeared in ONLYOFFICE Docs 9.0, earlier versions answer the request for it with the 404 error: it breaks nothing, but is visible in the browser network log;
+* one component per application is enough;
+* do not replace it with `<link rel="prefetch">`: the editor assets are loaded within the iframe context, so prefetch will not cache them.
 
 ## Development
 
